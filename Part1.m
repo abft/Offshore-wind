@@ -15,8 +15,9 @@ omega = 2*pi/T;
 f = 1/T;
 k = kSolve(f,g,h);
 x=0;
+L = 2*pi/k;
 
-t = linspace(0,100,1000);
+t = linspace(0,100,500);
 
 eta = H/2*cos(omega.*t - k*x);
 u_z0 = omega.*H/2*cosh(k*h)/sinh(k*h)*cos(omega.*t); %horizontal velocity
@@ -28,11 +29,12 @@ plot(t,eta)
 plot(t,u_z0)
 plot(t,dudt_z0)
 hold off
-xlabel('time','Fontsize',14)
+xlabel('time')
 %ylabel('','Fontsize',14)
 legend({'$\eta$ (t)','$u(t)_{|z=0}$','$\frac{\partial u}{\partial t}_{|z=0}$'}, ... 
-    'Interpreter','latex','Location','Southeast','Fontsize',14)
-title('Time series','Fontsize',14)
+    'Interpreter','latex','Location','Southeast')
+title('Time series')
+enhance_plot('TIMES',16,1.5)
 
 %eta et u_z0 même phase, dudt_z0 déphasage
 %eta augmente, dp augmente, mouvement -> vitesse augmente
@@ -41,4 +43,63 @@ title('Time series','Fontsize',14)
 % schéma trajectoire particule
 
 
+%3.
+%D/L < 0.2 so we can use Morison equation
 
+a = H/2;
+t = [1:200];
+[F_drag_w,F_inert_w,F_tot_w] = FCalc(f,h,g,D,a,true);
+
+
+[F_drag,F_inert,F_tot] = FCalc(f,h,g,D,a,false);
+
+dif = abs(F_tot - F_tot_w)/F_tot; %e^-4
+%explain
+% H<<h error due to exp not big enough
+
+figure()
+plot(t,F_drag,t,F_inert)
+xlabel('time','Fontsize',14)
+ylabel('Force per height [N/m]','Fontsize',14)
+legend({'Drag force','Inertial force'},'Fontsize',12)
+title('Drag and inertial forces','Fontsize',14)
+enhance_plot('TIMES',16,1.5)
+
+figure()
+plot(t,F_tot,t,F_tot_w,'k--')
+xlabel('time','Fontsize',14)
+ylabel('Force per height [N/m]','Fontsize',14)
+legend({'Without wheeler stretching','With wheeler stretching'},'Fontsize',12)
+title('Total inline force','Fontsize',14)
+enhance_plot('TIMES',16,1.5)
+
+figure()
+plot(t,F_drag,t,F_drag_w,'k--')
+xlabel('time','Fontsize',14)
+ylabel('Force per height [N/m]','Fontsize',14)
+legend({'Without wheeler stretching','With wheeler stretching'},'Fontsize',12)
+title('Drag force','Fontsize',14)
+enhance_plot('TIMES',16,1.5)
+
+figure()
+plot(t,F_inert,t,F_inert_w,'k--')
+xlabel('time','Fontsize',14)
+ylabel('Force per height [N/m]','Fontsize',14)
+legend({'Without wheeler stretching','With wheeler stretching'},'Fontsize',12)
+title('Inertial force','Fontsize',14)
+enhance_plot('TIMES',16,1.5)
+
+%4.
+%according to tempel et machin with D/L=0.04 CM ~2 voir un peu plus
+
+%5 
+eta = -a*cos(omega.*t);
+[~,~,~,M] = FCalc(f,h,g,D,a,false);
+
+figure()
+plot(t,eta,t,F_tot,t,M)
+xlabel('time','Fontsize',14)
+ylabel('','Fontsize',14)
+legend({'Free surface elevation','Inline force','Overturning moment'},'Fontsize',12)
+title('Time series','Fontsize',14)
+enhance_plot('TIMES',16,1.5)
