@@ -1,4 +1,4 @@
-function [F_drag,F_inert,F_tot,M]=FCalc(f,h,g,D,a,iWheeler)
+function [F_drag,F_inert,F_tot,M]=FCalc(f,h,g,D,a,iWheeler,num)
 % f = 0.0833;
 % h =30;
 % g = 9.81;
@@ -16,14 +16,14 @@ A = pi*D^2/4;
 
 for t=1:200
     eta = a*cos(omega*t);
-    z_phys = linspace(-h,eta,40);
+    z_phys = linspace(-h,eta,num);
     dz = (z_phys(2)-z_phys(1))*ones(1,40); %constant
     if iWheeler ==true
         z_calc = (z_phys - eta)/(1+eta/h);
     else
         z_calc = z_phys;
     end
-    for i=1:40
+    for i=1:num
         u(i) = omega*a*cosh(k*(z_calc(i)+h))/sinh(k*h)*cos(omega*t); %airy
         dudt(i) = -omega^2*a*cosh(k*(z_calc(i)+h))/sinh(k*h)*sin(omega*t);
         dF_drag(i) = 1/2*rho*C_D*abs(u(i))*u(i);
