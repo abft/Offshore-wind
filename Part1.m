@@ -108,7 +108,7 @@ legend({'Free surface elevation','Inline force','Overturning moment'},'Fontsize'
 title('Time series','Fontsize',14)
 enhance_plot('TIMES',16,1.5)
 
-%F and M 
+%what about it ? compare phases ?  
 
 NUM = [10 15 20 25 30 35 40 50 70 90]; %trying different number of points in the horizontal direction
 
