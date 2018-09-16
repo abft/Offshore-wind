@@ -42,9 +42,6 @@ for j=1:length(f)
             dF_inert(i) = rho*C_M*A*dudt(i);
             dM(i) = (dF_drag(i) + dF_inert(i))*(h + z_phys(i)); %zphys/calc
         end
-        
-%         F_drag(j,l) = trapz(z_phys,dF_drag);
-%         F_inert(j,l) = trapz(z_phys,dF_inert); 
         M(l) = M(l) + trapz(z_phys,dM);
         F(l) = F(l) + trapz(z_phys,dF_drag + dF_inert);
         
