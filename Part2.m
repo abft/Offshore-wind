@@ -54,6 +54,7 @@ enhance_plot('TIMES',16,1.5)
 P_50 = 1 - 1/50;
 Hs_50 = exp( log(-log(1-P_50))/b + log(a));
 
+
 figure()
 plot(Hs, 1 - exp(-(Hs./a).^b))
 xlabel('H_s')
@@ -65,4 +66,4 @@ enhance_plot('TIMES',16,1.5)
 
 Tp_50 = p1(1).*sqrt(Hs_50./g)+p1(2);
 
-
+save('data_part2','Hs_50','Tp_50')
